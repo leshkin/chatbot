@@ -4,7 +4,7 @@
 
 Create a bot in [Telegram](https://core.telegram.org/bots#how-do-i-create-a-bot) and an account in [OpenAI](https://platform.openai.com/signup)
 
-## Usage
+## Development
 
 1. Rename `.env.example` to `.env` and specify environment variables.
 2. Install dependencies
