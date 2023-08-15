@@ -1,4 +1,4 @@
-# Telegram chatbot with ChatGPT support
+# Telegram chatbot based on OpenAI API (ChatGPT)
 
 ## Before launching the chatbot
 
