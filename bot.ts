@@ -1,4 +1,4 @@
-import { Bot, Context, session, SessionFlavor, MemorySessionStorage } from 'grammy'
+import { Bot, Context, session, SessionFlavor, MemorySessionStorage, GrammyError, HttpError } from 'grammy'
 import { Configuration, OpenAIApi } from 'openai'
 import 'dotenv/config'
 
@@ -64,9 +64,20 @@ bot.on('message', async (ctx) => {
 
     console.log('reply: ' + reply)
 
-    ctx.reply(reply, { parse_mode: 'Markdown' })
+    await ctx.reply(reply)
   } else {
-    ctx.reply(process.env.MESSAGE_UNKNOWN_USER as string)
+    await ctx.reply(process.env.MESSAGE_UNKNOWN_USER as string)
+  }
+})
+
+bot.catch((err) => {
+  const e = err.error
+  if (e instanceof GrammyError) {
+    console.error(e.description)
+  } else if (e instanceof HttpError) {
+    console.error('Could not contact Telegram:', e)
+  } else {
+    console.error('Unknown error:', e)
   }
 })
 
