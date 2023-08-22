@@ -3,6 +3,7 @@
   "description": "",
   "version": "1.0.0",
   "main": "bot.js",
+  "type": "module",
   "scripts": {
     "dev": "export DEBUG=grammy* && npx tsc && node bot.js",
     "build": "npx tsc"

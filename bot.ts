@@ -44,15 +44,21 @@ bot.on('message', async (ctx) => {
   const text = ctx.message.text as string
 
   console.log('user: ' + username)
-  console.log('text: ' + text)
+  console.log('question: ' + text)
 
   if (ALLOWED_USERS.split(',').indexOf(username) > -1) {
     ctx.session.messages.push({ role: 'user', content: text })
+
+    const typingAction = () => bot.api.sendChatAction(ctx.chat.id, 'typing')
+
+    const intervalId = setInterval(typingAction, 3000)
 
     const response = await openai.createChatCompletion({
       model: process.env.OPENAI_MODEL as string,
       messages: ctx.session.messages,
     })
+
+    clearInterval(intervalId)
 
     const reply = response.data.choices[0].message?.content as string
     ctx.session.messages.push({ role: 'assistant', content: reply })
@@ -62,7 +68,7 @@ bot.on('message', async (ctx) => {
       ctx.session.messages.shift()
     }
 
-    console.log('reply: ' + reply)
+    console.log('answer: ' + reply)
 
     await ctx.reply(reply)
   } else {
