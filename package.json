@@ -5,8 +5,9 @@
   "main": "bot.js",
   "type": "module",
   "scripts": {
-    "dev": "export DEBUG=grammy* && npx tsc && node bot.js",
-    "build": "npx tsc"
+    "dev": "export DEBUG=grammy* && nodemon --exec ts-node --esm bot.ts",
+    "build": "npx tsc",
+    "start": "node bot.js"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -15,6 +16,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }
 }
