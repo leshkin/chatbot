@@ -33,4 +33,5 @@ jobs:
           key: ${{ secrets.HOST_KEY }}
           script: |
             cd ${{ secrets.HOST_DIRECTORY }}
-            ls -la
+            docker compose pull
+            docker compose up -d
