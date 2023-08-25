@@ -22,10 +22,8 @@ npm run dev
 ## Deployment
 
 1. Install Docker on the server
-2. Create and push Docker images to Docker Hub
-3. Rename `docker-compose.example.yml` to `docker-compose.yml` and specify an image name.
-4. Copy `docker-compose.yml` and `.env` to a folder on the server
-5. Start container
+2. Copy `docker-compose.yml` and `.env` to a folder on the server
+3. Start container
 
 ```
 docker compose up -d
