@@ -13,7 +13,6 @@ dist-ssr
 *.local
 .env
 *.js
-docker-compose.yml
 
 # Editor directories and files
 .vscode/*

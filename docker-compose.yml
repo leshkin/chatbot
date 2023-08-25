@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   chatbot:
-    image: user/chatbot:1.0.0
+    image: 1eshkin/bublik-chatbot:0.0.5
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}

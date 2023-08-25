@@ -70,7 +70,7 @@ bot.on('message', async (ctx) => {
 
     console.log('answer: ' + reply)
 
-    await ctx.reply(reply)
+    await ctx.reply('0.0.5 ' + reply)
   } else {
     await ctx.reply(process.env.MESSAGE_UNKNOWN_USER as string)
   }
