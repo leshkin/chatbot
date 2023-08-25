@@ -37,6 +37,7 @@ jobs:
           key: ${{ secrets.HOST_KEY }}
           source: docker-compose.yml
           target: ${{ secrets.HOST_DIRECTORY }}
+
       - name: executing ssh commands on a remote server
         uses: appleboy/ssh-action@v1.0.0
         with:
