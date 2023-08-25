@@ -24,8 +24,16 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: 1eshkin/chatbot:0.0.5
-      - name: executing remote ssh commands using password
+          tags: 1eshkin/chatbot:0.0.6
+      - name: copy file via ssh
+      uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST_NAME }}
+          username: ${{ secrets.HOST_USER }}
+          key: ${{ secrets.HOST_KEY }}
+          source: docker-compose.yml
+          target: ${{ secrets.HOST_DIRECTORY }}
+      - name: executing ssh commands on a remote server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST_NAME }}
