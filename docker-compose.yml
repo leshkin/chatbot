@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   chatbot:
-    image: 1eshkin/chatbot:0.0.6
+    image: 1eshkin/chatbot:0.0.7
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}

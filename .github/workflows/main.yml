@@ -27,7 +27,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: 1eshkin/chatbot:0.0.6
+          tags: 1eshkin/chatbot:0.0.7
 
       - name: copy file via ssh
         uses: appleboy/scp-action@v0.1.4
