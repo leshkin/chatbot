@@ -45,7 +45,6 @@ jobs:
           username: ${{ secrets.HOST_USER }}
           key: ${{ secrets.HOST_KEY }}
           script: |
-            scp docker-compose.yml ${{ secrets.HOST_USER }}@${{ secrets.HOST_NAME }}:/${{ secrets.HOST_DIRECTORY }}
             cd ${{ secrets.HOST_DIRECTORY }}
             docker compose pull
             docker compose up -d
