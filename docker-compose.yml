@@ -2,11 +2,12 @@ version: '3.3'
 
 services:
   chatbot:
-    image: 1eshkin/chatbot:0.0.7
+    image: 1eshkin/chatbot:0.0.8
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - OPENAI_MODEL=${OPENAI_MODEL}
+      - OPENAI_TTS_MODEL=${OPENAI_TTS_MODEL}
       - OPENAI_BOT_ROLE=${OPENAI_BOT_ROLE}
       - ALLOWED_USERS=${ALLOWED_USERS}
       - MAX_MESSAGES_IN_HISTORY=${MAX_MESSAGES_IN_HISTORY}
