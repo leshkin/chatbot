@@ -1,5 +1,5 @@
-import { Bot, Context, session, SessionFlavor, MemorySessionStorage, GrammyError, HttpError } from 'grammy'
-import { Configuration, OpenAIApi } from 'openai'
+import { Bot, Context, session, SessionFlavor, MemorySessionStorage, GrammyError, HttpError, InputFile } from 'grammy'
+import { OpenAI } from 'openai'
 import 'dotenv/config'
 
 const ALLOWED_USERS = process.env.ALLOWED_USERS as string
@@ -29,38 +29,57 @@ bot.use(
   })
 )
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-})
-
-const openai = new OpenAIApi(configuration)
+const openai = new OpenAI()
 
 bot.command('start', (ctx) => {
   ctx.reply(process.env.MESSAGE_START as string)
 })
 
+bot.command('help', (ctx) => {
+  ctx.reply(process.env.MESSAGE_START as string)
+})
+
+bot.command('tts', async (ctx) => {
+  const username = ctx.message!.from.username as string
+  const tts = ctx.match as string
+
+  console.log('user: ' + username)
+  console.log('tts: ' + tts)
+
+  if (isAllowedUser(username)) {
+    const intervalId = typingAction(ctx)
+    const mp3 = await openai.audio.speech.create({
+      model: process.env.OPENAI_TTS_MODEL as string,
+      voice: 'echo',
+      input: tts,
+    })
+    clearInterval(intervalId)
+
+    const buffer = Buffer.from(await mp3.arrayBuffer())
+    await ctx.replyWithAudio(new InputFile(buffer))
+  } else {
+    await ctx.reply(process.env.MESSAGE_UNKNOWN_USER as string)
+  }
+})
+
 bot.on('message', async (ctx) => {
-  const username = ctx.message.from.username as string
-  const text = ctx.message.text as string
+  const username = ctx.msg.from.username as string
+  const text = ctx.msg.text as string
 
   console.log('user: ' + username)
   console.log('question: ' + text)
 
-  if (ALLOWED_USERS.split(',').indexOf(username) > -1) {
+  if (isAllowedUser(username)) {
     ctx.session.messages.push({ role: 'user', content: text })
 
-    const typingAction = () => bot.api.sendChatAction(ctx.chat.id, 'typing')
-
-    const intervalId = setInterval(typingAction, 3000)
-
-    const response = await openai.createChatCompletion({
+    const intervalId = typingAction(ctx)
+    const completion = await openai.chat.completions.create({
       model: process.env.OPENAI_MODEL as string,
       messages: ctx.session.messages,
     })
-
     clearInterval(intervalId)
 
-    const reply = response.data.choices[0].message?.content as string
+    const reply = completion.choices[0].message.content as string
     ctx.session.messages.push({ role: 'assistant', content: reply })
 
     if (ctx.session.messages.length > MAX_MESSAGES_IN_HISTORY) {
@@ -86,5 +105,14 @@ bot.catch((err) => {
     console.error('Unknown error:', e)
   }
 })
+
+function isAllowedUser(username: string) {
+  return ALLOWED_USERS.split(',').indexOf(username) > -1
+}
+
+function typingAction(ctx: any) {
+  const typingAction = () => bot.api.sendChatAction(ctx.chat.id, 'typing')
+  return setInterval(typingAction, 3000)
+}
 
 bot.start()
