@@ -12,7 +12,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "grammy": "^1.19.2",
-    "openai": "^4.17.4"
+    "openai": "^4.24.1"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
